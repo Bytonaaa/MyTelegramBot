@@ -24,8 +24,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 -- Import Libraries
 local https = require("ssl.https")
 local ltn12 = require("ltn12")
-local encode = require("tbot.multipart.multipart-post").encode
-local JSON = require("tbot.JSON")
+local encode = require("multipart.multipart-post").encode
+local JSON = require("JSON")
 
 local M = {} -- Main Bot Framework
 local E = {} -- Extension Framework
@@ -1100,13 +1100,15 @@ local function parseUpdateCallbacks(update)
   end
 end
 
-local function run(limit, timeout)
+local function run(updateFunc, limit, timeout)
   if limit == nil then limit = 1 end
   if timeout == nil then timeout = 0 end
   local offset = 0
+  local dt = os.clock()
+  local players_online = require "Player.playersonline"
   while true do 
     local updates = M.getUpdates(offset, limit, timeout)
-    if(updates) then
+    if(updates) then  
       if (updates.result) then
         for key, update in pairs(updates.result) do
           parseUpdateCallbacks(update)
@@ -1114,6 +1116,12 @@ local function run(limit, timeout)
         end
       end
     end
+    
+    if updateFunc then
+      updateFunc(os.clock() - dt)
+    end
+    players_online.update_players(os.clock() - dt)
+    dt = os.clock()
   end
 end
 
