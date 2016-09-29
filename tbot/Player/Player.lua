@@ -4,8 +4,8 @@ user.__index = user
 local bot
   
   --Send Text message to user
-  function user:send_message(message)
-    bot.sendMessage(self.id, message)
+  function user:send_message(message, keyboard_markup, reply_to_msg_id, disable_web_prew, disable_notification)
+    bot.sendMessage(self.id, message, "", disable_web_prew, disable_notification, reply_to_msg_id, keyboard_markup)
   end
   
   --Get a State of user
@@ -36,7 +36,6 @@ local bot
   function user:get_online_time()
     return self.online_time
   end
-  
   --Reset user online time
   function user:reset_online_time()
     self.online_time = 0
@@ -47,8 +46,8 @@ local bot
   end
   --All states of users
   user_manager.STATES = {
-    ENABLE = 0,
-    DISABLE = 1
+    DEFAULT = "default",
+    DISABLE = ""
   }
   
   
