@@ -1,7 +1,7 @@
 local players_manager = { }
 local players = { }
 local event_broadcast_table = { }
-local MAX_SECONDS_ONLINE = 20
+local MAX_SECONDS_ONLINE = 180
 
   local function delete_player (user)
     if user:get_online_time() < MAX_SECONDS_ONLINE then 

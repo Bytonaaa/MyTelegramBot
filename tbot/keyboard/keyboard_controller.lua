@@ -6,6 +6,25 @@ local bot
     return keyboards[id_keyboard]()
   end
 
+  function keyboard_controller.get_keyboard_by_table(my_t)
+    local buttons_table = { }
+    local line = { }
+    local count = 0
+    for key, val in pairs(my_t) do
+      if count >= 3 then
+        table.insert(buttons_table, line)
+        line = { }
+        count = 0
+      end
+      if key ~= "/start" then
+        count = count + 1
+        table.insert(line, key)
+      end
+    end
+    table.insert(buttons_table, line)
+    return bot.generateReplyKeyboardMarkup(buttons_table, true)
+  end
+  
   function keyboard_controller.set_bot(new_bot)
     bot = new_bot
   end
@@ -28,5 +47,6 @@ local bot
     table.insert(buttons_table, line)
     return bot.generateReplyKeyboardMarkup(buttons_table, true)
   end
+  
   
 return keyboard_controller
