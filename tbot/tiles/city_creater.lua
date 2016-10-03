@@ -1,6 +1,7 @@
 local city_creater
 local types = require "tiles.tile_types"
 local keyboard_contr = require "keyboard.keyboard_controller"
+local states = require "Player.players_state"
 
 city_creater = function (data)
   if data.type ~= types.CITY then
@@ -17,6 +18,10 @@ city_creater = function (data)
   
   controller["/tractir"] = function(user)
     user:send_message("Ты в трактире")
+  end
+  
+  controller["/exit"] = function(user)
+    user:set_state(states.MENU)
   end
   return controller
 end

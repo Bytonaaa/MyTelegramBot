@@ -1,5 +1,4 @@
 local tiles_contr = { }
-local city_factory = require "tiles.city"
 local get_tile_by_data = require "tiles.get_tile_by_data"
 local tile_types = require "tiles.tile_types"
 

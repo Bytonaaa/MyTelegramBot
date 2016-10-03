@@ -21,6 +21,7 @@ local psevdo_loader = { ["/exit"] = true }
   
   loader["/go"] = function(user, msg)
     user:send_message("Вы выбрали игрока ".. msg[1].. ". Поздравляю!")
+    user:set_state(states.PLAYING)
     user:choose_person(tonumber(msg[1]))
   end
   
