@@ -9,7 +9,6 @@ local states = require "Player.players_state"
 
   local function load_person(us, person)
     us.player_information = person
-    print(person.name)
     us.player_information.tile_contr = tiles_contr.get_start_tile(us)
     us.player_information.tile_contr["/start"](us)
   end
