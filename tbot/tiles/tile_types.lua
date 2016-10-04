@@ -1,7 +1,7 @@
 local tile_types = {
   CITY = 0,
   SHOP = 1,
-  TAVERNA = 2,
+  BAR = 2,
   PERSON = 3
 }
 

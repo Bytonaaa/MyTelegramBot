@@ -9,8 +9,7 @@ local states = require "Player.players_state"
 
   local function load_person(us, person)
     us.player_information = person
-    us.player_information.tile_contr = tiles_contr.get_start_tile(us)
-    us.player_information.tile_contr["/start"](us)
+    us:set_tile_controller(tiles_contr.get_start_tile(us))
   end
 
   --Send Text message to user
@@ -64,10 +63,26 @@ local states = require "Player.players_state"
   function user:move_next_tile(new_tile)
   end
   
+  function user:set_tile_controller(controller)
+    self.player_information.tile_contr = { controller }
+    self.player_information.tile_contr[1]["/start"](self)
+  end
+  
+  function user:set_next_tile_controller(controller)
+    table.insert(self.player_information.tile_contr, controller)
+    self.player_information.tile_contr[#self.player_information.tile_contr]["/start"](self)
+  end
+  
+  function user:set_back_tile_controller()
+    table.remove(self.player_information.tile_contr)
+    self.player_information.tile_contr[#self.player_information.tile_contr]["/start"](self)
+  end
+  
   --Tile controller trying to recive msg
   function user:try_tile_controller_work(msg, arg)
-    if self.player_information and self.player_information.tile_contr[msg] then
-      self.player_information.tile_contr[msg](self, arg)
+    if self.player_information and #self.player_information.tile_contr > 0 and 
+    self.player_information.tile_contr[#self.player_information.tile_contr][msg] then
+      self.player_information.tile_contr[#self.player_information.tile_contr][msg](self, arg)
       return true
     end
     return false
