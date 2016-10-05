@@ -6,16 +6,17 @@ local states = require "Player.players_state"
 city_creater = function (loader, data)
   
   if data.type ~= types.CITY then
-    return { }
+    return nil
   end
   
   local controller = { }
   controller["/start"] = function (user)
-    user:send_message("Добро пожаловать в город ".. data.name..".", keyboard_contr.get_keyboard_by_table(controller))
+    user:send_message("Добро пожаловать в город ".. data.name..".\n" .. data.discription,
+      keyboard_contr.get_keyboard_by_table(controller))
   end
   
   controller["/move_next"] = function (user)
-    user:send_message("Ты пошел дальше")
+    user:move_next_tile()
   end
   
   if data.bar ~= nil then

@@ -5,12 +5,13 @@ local keyboard_contr = require "keyboard.keyboard_controller"
 bar_creater = function (loader, data)
   
   if data.type ~= types.BAR then
-    return { }
+    return nil
   end
   
   local controller = { }
   controller["/start"] = function (user)
-    user:send_message("Добро пожаловать в таверну ".. data.name..".", keyboard_contr.get_keyboard_by_table(controller))
+    user:send_message("Добро пожаловать в таверну ".. data.name..".\n" .. data.discription,
+      keyboard_contr.get_keyboard_by_table(controller))
   end
   
   controller["/relax"] = function (user)

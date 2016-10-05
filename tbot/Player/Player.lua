@@ -60,7 +60,8 @@ local states = require "Player.players_state"
   end
   
   --Move user_player to next tile
-  function user:move_next_tile(new_tile)
+  function user:move_next_tile()
+    self:set_tile_controller(tiles_contr.get_next_tile(self))
   end
   
   function user:set_tile_controller(controller)
