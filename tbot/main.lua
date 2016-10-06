@@ -2,16 +2,12 @@
 
 ]]
 
-local bot, extension = require("tbot.lua-bot-api").configure("279009282:AAEVJVs-4Px8AGLqD_3yI6Od_Va0MLma7Ng")
-local user_manager = require("tbot.Player.Player")
-user_manager.set_bot(bot)
-local players_online = require("tbot.Player.playersonline")
+local bot, extension = require("lua-bot-api").configure("248276882:AAGok6vhHx2qscgbP9iHbxRoa4ugp93WvAA")
 
 -- override onMessageReceive function so it does what we want
 extension.onTextReceive = function (msg)
-	print("New Message by " .. msg.from.first_name)
 
-	if (msg.text == "/start") then
+	--[[if (msg.text == "/start") then
 		bot.sendMessage(msg.from.id, "Hello there 👋\nMy name is " .. bot.first_name)
     my_user = user_manager:new(msg.from)
     players_online.add_player(my_user)
@@ -24,15 +20,14 @@ extension.onTextReceive = function (msg)
     pl:send_message("pong!")
 	else
 		bot.sendMessage(msg.chat.id, "I am just an example, running on the Lua Telegram Framework written with ❤️ by @cosmonawt")
-	end
+	end]]
+  if not bot.sendGame(msg.chat.id, "Diyu") then
+    print("ERROR")
+  end
 end
 
--- override onPhotoReceive as well
-extension.onPhotoReceive = function (msg)
-	print("Photo received!")
-	bot.sendMessage(msg.chat.id, "Nice photo! It dimensions are " .. msg.photo[1].width .. "x" .. msg.photo[1].height)
+extension.onCallbackQueryReceive = function (CallbackQuery)
+  bot.answerCallbackQuery(CallbackQuery.id, "SCARIEST GAME EVER", true, "http://olde-shipmates.com/diyu/v0.16.09.25_html5_en/index.html" )
 end
 
--- This runs the internal update and callback handler
--- you can even override run()
 extension.run(100,5)

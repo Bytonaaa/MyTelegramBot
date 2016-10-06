@@ -24,8 +24,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 -- Import Libraries
 local https = require("ssl.https")
 local ltn12 = require("ltn12")
-local encode = require("tbot.multipart.multipart-post").encode
-local JSON = require("tbot.JSON")
+local encode = require("multipart.multipart-post").encode
+local JSON = require("JSON")
 
 local M = {} -- Main Bot Framework
 local E = {} -- Extension Framework
@@ -770,7 +770,7 @@ end
 
 M.unbanChatMember = unbanChatMember
 
-local function answerCallbackQuery(callback_query_id, text, show_alert)
+local function answerCallbackQuery(callback_query_id, text, show_alert, url)
 
 	if not callback_query_id then return nil, "callback_query_id not specified" end
 
@@ -779,6 +779,7 @@ local function answerCallbackQuery(callback_query_id, text, show_alert)
 	request_body.callback_query_id = tostring(callback_query_id)
 	request_body.text = tostring(text)
 	request_body.show_alert = tostring(show_alert)
+  request_body.url = tostring(url)
 	
 	local response = makeRequest("answerCallbackQuery",request_body)
 
@@ -790,6 +791,23 @@ local function answerCallbackQuery(callback_query_id, text, show_alert)
 end
 
 M.answerCallbackQuery = answerCallbackQuery
+
+local function sendGame(chat_id, game_short_name)
+  local request_body = {}
+
+	request_body.chat_id= tostring(chat_id)
+  request_body.game_short_name = tostring(game_short_name)
+	
+	local response = makeRequest("sendGame", request_body)
+
+	  if (response.success == 1) then
+	    return JSON:decode(response.body)
+	  else
+	    return nil, "Request Error"
+  end
+end
+
+M.sendGame = sendGame
 
 local function editMessageText(chat_id, message_id, inline_message_id, text, parse_mode, disable_web_page_preview, reply_markup)
 	
